@@ -49,7 +49,6 @@ public class Player : MonoBehaviour
             UIManager.Instance.point += 100;
             Destroy(other.gameObject);
             UIManager.Instance.updatePoint();
-            Debug.Log("³¡");
         }
         if (other.gameObject.CompareTag("Finish"))
         {

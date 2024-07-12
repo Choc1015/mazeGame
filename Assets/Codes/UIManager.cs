@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        if(currentPoint != null)
         currentPoint.text = 0.ToString();
     }
 
@@ -23,7 +24,8 @@ public class UIManager : MonoBehaviour
 
     public void updatePoint()
     {
-        currentPoint.text = point.ToString();
+        if (currentPoint != null)
+            currentPoint.text = point.ToString();
     }
 
     // ¾À º¯È¯
