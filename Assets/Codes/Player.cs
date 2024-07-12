@@ -44,6 +44,13 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
+        if (other.gameObject.CompareTag("Point"))
+        {
+            UIManager.Instance.point += 100;
+            Destroy(other.gameObject);
+            UIManager.Instance.updatePoint();
+            Debug.Log("³¡");
+        }
         if (other.gameObject.CompareTag("Finish"))
         {
             Debug.Log("³¡");
