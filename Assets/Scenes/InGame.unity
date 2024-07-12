@@ -818,11 +818,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f07b40b18f247c4a83294de5db87ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: 67
+  grid: 11
   speed: 1
   wall: {fileID: 4757412708980607470, guid: 9b780eafcc4778345bde154cf5f73b67, type: 3}
   wallBox: {fileID: 1773135306}
   spike: {fileID: 3921895881306252987, guid: 1b9b4dbafe328814e96c050a92f0f953, type: 3}
+  point: {fileID: 338050583096246000, guid: 8b76322c331cd1242a5affb900be415a, type: 3}
   endPoint: {fileID: 3921895881306252987, guid: 56fce942b10275b4eabb86881542b2a4,
     type: 3}
 --- !u!4 &871394565

@@ -16,6 +16,7 @@ public class GenerationWall : MonoBehaviour
     public GameObject wall;
     public GameObject wallBox;
     public GameObject spike;
+    public GameObject point;
     public GameObject endPoint;
 
     Vector3[,] startPos;
@@ -37,6 +38,8 @@ public class GenerationWall : MonoBehaviour
         }
         GenerateBySideWinder();
         InvokeRepeating("rndMoveWall", 3, 3); 
+        InvokeRepeating("rndSpawnSpike", 3, 3);
+        rndSpawnPoint();
     }
 
     void GenerateBySideWinder()
@@ -119,12 +122,48 @@ public class GenerationWall : MonoBehaviour
                         StartCoroutine(moveAndReset(y, x));
                     }
                 }
-                if (Random.Range(0, 2000/grid ) == 0)
+            }
+        }
+    }
+
+    void rndSpawnSpike()
+    {
+        for (int y = 0; y < grid; y++)
+        {
+            for (int x = 0; x < grid; x++)
+            {
+                if (x == 0 || y == 0 || x == grid - 1 || y == grid - 1)
+                {
+                    continue;
+                }
+                if (Random.Range(0, 2000 / grid) == 0)
                 {
                     if (tiles[y, x].name == tileType.ºó°ø°£.ToString())
                     {
                         tiles[y, x].name = "ÇÔÁ¤";
                         StartCoroutine(spawnSpike(y, x));
+                    }
+                }
+            }
+        }
+    }
+
+    void rndSpawnPoint()
+    {
+        for (int y = 0; y < grid; y++)
+        {
+            for (int x = 0; x < grid; x++)
+            {
+                if (x == 0 || y == 0 || x == grid - 1 || y == grid - 1)
+                {
+                    continue;
+                }
+                if (Random.Range(0, grid / 2) == 0)
+                {
+                    if (tiles[y, x].name == tileType.ºó°ø°£.ToString())
+                    {
+                        tiles[y, x].name = "Á¡¼ö";
+                        StartCoroutine(spawnPoint(y, x));
                     }
                 }
             }
@@ -171,5 +210,15 @@ public class GenerationWall : MonoBehaviour
         Destroy(spawnedSpike[y, x]);
             tiles[y, x].name = "ºó°ø°£";
         yield return new WaitForSeconds(delay);
+    }
+    IEnumerator spawnPoint(int y, int x)
+    {
+        int delay = 2;
+        yield return new WaitForSeconds(delay);
+
+        Vector3 spawnPos = tiles[y, x].transform.position - new Vector3(0, 0.5f, 0);
+        GameObject[,] spawnedPoint = new GameObject[grid, grid];
+        spawnedPoint[y, x] = Instantiate(point, spawnPos, Quaternion.identity);
+       
     }
 }
