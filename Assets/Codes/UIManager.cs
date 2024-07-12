@@ -11,6 +11,6 @@ public class UIManager : MonoBehaviour
     // ¾À º¯È¯
     public void startScene()
     {
-        SceneManager.LoadScene("");
+        SceneManager.LoadScene("InGame");
     }
 }
