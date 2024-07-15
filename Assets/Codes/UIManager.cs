@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    public GameObject endPannel;
     public Text currentPoint;
     public int point;
 
@@ -28,9 +29,19 @@ public class UIManager : MonoBehaviour
             currentPoint.text = point.ToString();
     }
 
+    public void ActivePannel()
+    {
+        endPannel.gameObject.SetActive(true);
+    }
+
     // ¾À º¯È¯
     public void startScene()
     {
         SceneManager.LoadScene("InGame");
+    }
+
+    public void robbyScene()
+    {
+        SceneManager.LoadScene("OutGame_Start");
     }
 }

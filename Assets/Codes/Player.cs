@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Finish"))
         {
-            Debug.Log("³¡");
+            UIManager.Instance.ActivePannel();
         }
     }
 
