@@ -10,13 +10,25 @@ public class UIManager : MonoBehaviour
 
     public GameObject endPannel;
     public Text currentPoint;
+    public Text bestPoint;
+    public Text lastPoint;
     public int point;
 
     private void Awake()
     {
         Instance = this;
-        if(currentPoint != null)
-        currentPoint.text = 0.ToString();
+        
+    }
+
+    private void Start()
+    {
+        if (currentPoint != null)
+            currentPoint.text = 0.ToString();
+
+        if (bestPoint != null)
+            bestPoint.text = "최고 기록 : " + GameManager.bestPoint.ToString();
+        if (lastPoint != null)
+            lastPoint.text = "지난 기록 : " + GameManager.lastPoint.ToString();
     }
 
     private void Update()
@@ -31,6 +43,8 @@ public class UIManager : MonoBehaviour
 
     public void ActivePannel()
     {
+
+        GameManager.inputPoint = point;
         endPannel.gameObject.SetActive(true);
     }
 
@@ -44,4 +58,6 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene("OutGame_Start");
     }
+
+    
 }
