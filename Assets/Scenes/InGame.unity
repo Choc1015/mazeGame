@@ -836,7 +836,7 @@ GameObject:
   - component: {fileID: 594371686}
   - component: {fileID: 594371685}
   m_Layer: 5
-  m_Name: "\uB3C4\uCC29 \uBA54\uC138\uC9C0"
+  m_Name: time out
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1393,7 +1393,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1812062261}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: startScene
+        m_MethodName: reStartScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1470,6 +1470,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9c82c7c2fb0104ba1580f1a81c8567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicHandle: {fileID: 0}
+  soundEffectHandle: {fileID: 0}
+  level: {fileID: 0}
+  inputgrid: {fileID: 0}
+  isOkGrid: 0
 --- !u!4 &1114250620
 Transform:
   m_ObjectHideFlags: 0

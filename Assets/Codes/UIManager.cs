@@ -61,7 +61,12 @@ public class UIManager : MonoBehaviour
     // ¾À º¯È¯
     public void startScene()
     {
-        SceneManager.LoadScene("InGame");
+        if (GameManager.Instance.isOkGrid)
+            SceneManager.LoadScene("InGame");
+    }
+    public void reStartScene()
+    {
+            SceneManager.LoadScene("InGame");
     }
 
     public void robbyScene()

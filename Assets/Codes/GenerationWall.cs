@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 enum tileType
@@ -10,7 +10,7 @@ enum tileType
 
 public class GenerationWall : MonoBehaviour
 {
-    public int grid = 10;
+    public int grid = GameManager.grid; //Convert.ToInt32(GameManager.Instance.inputgrid.text);
     public float speed = 1;
 
     public GameObject wall;
@@ -25,6 +25,15 @@ public class GenerationWall : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log($"1 .{GameManager.grid} , \n 2 .{GameManager.spikePercent},\n 3 .{GameManager.pointPercent},\n 4 .{GameManager.timePercent}");
+        grid = GameManager.grid;
+
+        if(grid % 2 == 0)
+        {
+            grid += 1;
+        }
+        
+
         startPos = new Vector3[grid, grid];
         tiles = new GameObject[grid, grid];
         for (int y = 0; y < grid; y++)
@@ -116,7 +125,7 @@ public class GenerationWall : MonoBehaviour
                 {
                     continue;
                 }
-                if (Random.Range(0, grid) == 0)
+                if (Random.Range(0, GameManager.movingPercent) == 0)
                 {
                     if (tiles[y, x].name == tileType.º®.ToString())
                     {
@@ -138,7 +147,7 @@ public class GenerationWall : MonoBehaviour
                 {
                     continue;
                 }
-                if (Random.Range(0, 2000 / grid) == 0)
+                if (Random.Range(0, GameManager.spikePercent) == 0)
                 {
                     if (tiles[y, x].name == tileType.ºó°ø°£.ToString())
                     {
@@ -160,7 +169,7 @@ public class GenerationWall : MonoBehaviour
                 {
                     continue;
                 }
-                if (Random.Range(0, grid / 2) == 0)
+                if (Random.Range(0,GameManager.pointPercent) == 0)
                 {
                     if (tiles[y, x].name == tileType.ºó°ø°£.ToString())
                     {
@@ -181,7 +190,7 @@ public class GenerationWall : MonoBehaviour
                 {
                     continue;
                 }
-                if (Random.Range(0, grid / 2) == 0)
+                if (Random.Range(0, GameManager.timePercent) == 0)
                 {
                     if (tiles[y, x].name == tileType.ºó°ø°£.ToString())
                     {
