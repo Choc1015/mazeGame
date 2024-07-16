@@ -9,8 +9,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     // 음악 소리
     public Slider musicHandle;
+    static public float musicValue;
     // 효과음 
     public Slider soundEffectHandle;
+    static public float soundEffectValue;
     // 난이도 
     public Dropdown level;
     static public int movingPercent;
@@ -37,14 +39,19 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(inputgrid != null)
-        CheckLevel();
+        if (inputgrid != null)
+            CheckLevel();
 
+        if (musicHandle != null)
+            musicValue = musicHandle.value;
+
+        if (soundEffectHandle != null)
+            soundEffectValue = soundEffectHandle.value;
     }
 
     private void CheckLevel()
     {
-        
+
         if (inputgrid.text == "")
             return;
         grid = Convert.ToInt32(inputgrid.text);
@@ -71,7 +78,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if(grid > 9)
+        if (grid > 9)
         {
             Debug.Log("1");
             isOkGrid = true;

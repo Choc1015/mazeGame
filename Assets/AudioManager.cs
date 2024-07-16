@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static AudioManager Instance;
+
+    public AudioSource BGM;
+    public AudioSource soundEffect;
+
+    private void Awake()
     {
-        
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        BGM.volume = GameManager.musicValue;
+        soundEffect.volume = GameManager.soundEffectValue;
+
+        if(SceneManager.GetActiveScene().name == "OutGame_Start")
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                soundEffect.Play();
+            }
+        }
+       
     }
 }
