@@ -7,6 +7,7 @@ TagManager:
   - Spike
   - Ground
   - Point
+  - Time
   layers:
   - Default
   - TransparentFX

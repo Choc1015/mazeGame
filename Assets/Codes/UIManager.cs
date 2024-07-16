@@ -9,15 +9,19 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public GameObject endPannel;
+    public GameObject retryPannel;
     public Text currentPoint;
     public Text bestPoint;
     public Text lastPoint;
+    public Text timeTxt;
     public int point;
-
+    static public int min = 0;
+    static public float sec = 20;
     private void Awake()
     {
         Instance = this;
-        
+        min = 0;
+        sec = 20;
     }
 
     private void Start()
@@ -33,6 +37,11 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if (min != 0 || sec > 0)
+        {
+            if (timeTxt != null)
+                CheckTimer();
+        }
     }
 
     public void updatePoint()
@@ -48,6 +57,7 @@ public class UIManager : MonoBehaviour
         endPannel.gameObject.SetActive(true);
     }
 
+   
     // ¾À º¯È¯
     public void startScene()
     {
@@ -58,6 +68,39 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene("OutGame_Start");
     }
-
     
+
+
+    private void CheckTimer()
+    {
+        sec -= Time.deltaTime;
+
+
+
+        string TIMETEXT = $"{min} : {(int)sec}";
+        timeTxt.text = TIMETEXT.ToString();
+
+        // Debug.Log($"{min}ºĞ {(int)sec} ÃÊ");
+
+        if ((int)sec == 0)
+        {
+            if (min == 0)
+            {
+                retryPannel.SetActive(true);
+            }
+            else
+            {
+                min -= 1;
+                sec += 60;
+            }
+        }
+
+        if((int)sec >= 60)
+        {
+            min += 1;
+            sec -= 60;
+        }
+
+    }
+
 }

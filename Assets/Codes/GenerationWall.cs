@@ -18,6 +18,7 @@ public class GenerationWall : MonoBehaviour
     public GameObject spike;
     public GameObject point;
     public GameObject endPoint;
+    public GameObject time;
 
     Vector3[,] startPos;
     GameObject[,] tiles;
@@ -40,6 +41,7 @@ public class GenerationWall : MonoBehaviour
         InvokeRepeating("rndMoveWall", 3, 3); 
         InvokeRepeating("rndSpawnSpike", 3, 3);
         rndSpawnPoint();
+        rndSpawnTime();
     }
 
     void GenerateBySideWinder()
@@ -169,6 +171,27 @@ public class GenerationWall : MonoBehaviour
             }
         }
     }
+    void rndSpawnTime()
+    {
+        for (int y = 0; y < grid; y++)
+        {
+            for (int x = 0; x < grid; x++)
+            {
+                if (x == 0 || y == 0 || x == grid - 1 || y == grid - 1)
+                {
+                    continue;
+                }
+                if (Random.Range(0, grid / 2) == 0)
+                {
+                    if (tiles[y, x].name == tileType.ºó°ø°£.ToString())
+                    {
+                        tiles[y, x].name = "½Ã°£";
+                        StartCoroutine(spawnTime(y, x));
+                    }
+                }
+            }
+        }
+    }
 
     IEnumerator moveAndReset(int y, int x)
     {
@@ -220,5 +243,16 @@ public class GenerationWall : MonoBehaviour
         GameObject[,] spawnedPoint = new GameObject[grid, grid];
         spawnedPoint[y, x] = Instantiate(point, spawnPos, Quaternion.identity);
        
+    }
+
+    IEnumerator spawnTime(int y, int x)
+    {
+        int delay = 2;
+        yield return new WaitForSeconds(delay);
+
+        Vector3 spawnPos = tiles[y, x].transform.position - new Vector3(0, 0.5f, 0);
+        GameObject[,] spawnedTime = new GameObject[grid, grid];
+        spawnedTime[y, x] = Instantiate(time, spawnPos, Quaternion.identity);
+
     }
 }

@@ -50,6 +50,12 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
             UIManager.Instance.updatePoint();
         }
+        if (other.gameObject.CompareTag("Time"))
+        {
+            UIManager.sec += 15;
+            Destroy(other.gameObject);
+        }
+
         if (other.gameObject.CompareTag("Finish"))
         {
             UIManager.Instance.ActivePannel();
