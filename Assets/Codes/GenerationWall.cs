@@ -343,7 +343,7 @@ public class GenerationWall : MonoBehaviour
 
             foreach (Vector3 next in GetNeighbors(current))
             {
-                if (!cameFrom.ContainsKey(next) && tiles[(int)next.z, (int)next.x].name != tileType.벽.ToString())
+                if (!cameFrom.ContainsKey(next) && tiles[(int)next.z, (int)next.x].name != tileType.벽.ToString() && tiles[(int)next.z, (int)next.x].name != "움직인 벽".ToString())
                 {
                     queue.Enqueue(next);
                     cameFrom[next] = current;

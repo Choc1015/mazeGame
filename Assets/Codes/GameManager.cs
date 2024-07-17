@@ -61,21 +61,21 @@ public class GameManager : MonoBehaviour
         {
             case 0: // 쉬움
                 movingPercent = grid;
-                spikePercent = 400 / grid;
+                spikePercent = 1000 / grid;
                 pointPercent = grid;
                 timePercent = grid;
                 sec = 90;
                 break;
             case 1: // 보통
                 movingPercent = grid * 2;
-                spikePercent = 400 / grid / 2;
+                spikePercent = (1000 / grid) / 2;
                 pointPercent = grid * 2;
                 timePercent = grid * 2;
                 sec = 60;
                 break;
             case 2: // 어려움
                 movingPercent = grid / 3;
-                spikePercent = 400 / grid * 3;
+                spikePercent = (1000 / grid) / 3;
                 pointPercent = grid * 3;
                 timePercent = grid * 3;
                 sec = 30;
