@@ -7,13 +7,16 @@ enum tileType
     빈공간,
     벽
 }
+
 public class GenerationWall : MonoBehaviour
 {
     static public GenerationWall Instance;
 
     public int grid = GameManager.grid;
     public float speed = 1;
+    static public bool isGetItem;
 
+    public GameObject positionPlayer;
     public GameObject wall;
     public GameObject wallBox;
     public GameObject spike;
@@ -25,6 +28,7 @@ public class GenerationWall : MonoBehaviour
 
     Vector3[,] startPos;
     GameObject[,] tiles;
+    Queue<GameObject> listPath = new Queue<GameObject>();
 
     private void Awake()
     {
@@ -59,9 +63,19 @@ public class GenerationWall : MonoBehaviour
         rndSpawnPoint();
         rndSpawnTime();
         rndSpawnPath();
+    }
 
-        StartCoroutine(destroyTimePath(tiles[1,1].transform.position));
-        
+    private void Update()
+    {
+        // 특정 조건을 만족하면 최단 경로 찾기
+        if (isGetItem)
+        {
+            Vector3 playerPosition = new Vector3((int)positionPlayer.transform.position.x, 0.5f, (int)positionPlayer.transform.position.z);
+            Debug.Log(tiles[1, 1].transform.position);
+            Debug.Log(playerPosition);
+            StartCoroutine(destroyTimePath(playerPosition));
+            isGetItem = false; // 조건 초기화
+        }
     }
 
     void GenerateBySideWinder()
@@ -211,6 +225,7 @@ public class GenerationWall : MonoBehaviour
             }
         }
     }
+
     void rndSpawnPath()
     {
         for (int y = 0; y < grid; y++)
@@ -221,14 +236,13 @@ public class GenerationWall : MonoBehaviour
                 {
                     continue;
                 }
-                if (Random.Range(0, GameManager.grid) == 0)
+                if (Random.Range(0, 100) == 0)
                 {
                     if (tiles[y, x].name == tileType.빈공간.ToString())
                     {
                         Vector3 spawnPos = tiles[y, x].transform.position - new Vector3(0, 0.5f, 0);
                         GameObject[,] spawnedPath = new GameObject[grid, grid];
                         spawnedPath[y, x] = Instantiate(pathItem, spawnPos, Quaternion.identity);
-                        
                     }
                 }
             }
@@ -285,7 +299,6 @@ public class GenerationWall : MonoBehaviour
         Vector3 spawnPos = tiles[y, x].transform.position - new Vector3(0, 0.5f, 0);
         GameObject[,] spawnedPoint = new GameObject[grid, grid];
         spawnedPoint[y, x] = Instantiate(point, spawnPos, Quaternion.identity);
-
     }
 
     IEnumerator spawnTime(int y, int x)
@@ -298,19 +311,22 @@ public class GenerationWall : MonoBehaviour
         spawnedTime[y, x] = Instantiate(time, spawnPos, Quaternion.identity);
     }
 
-  
-
-    public IEnumerator destroyTimePath(Vector3 pathItemPos)
+    public IEnumerator destroyTimePath(Vector3 playerPosition)
     {
-        foreach (Vector3 position in FindShortestPath(pathItemPos, tiles[grid - 2, grid - 2].transform.position))
+        Debug.Log("실행됨");
+        foreach (Vector3 position in FindShortestPath(playerPosition, tiles[grid - 2, grid - 2].transform.position))
         {
             GameObject par = Instantiate(path, position - new Vector3(0, 0.5f, 0), Quaternion.identity);
-            yield return new WaitForSeconds(.5f);
-            Destroy(par);
+            listPath.Enqueue(par);
+        }
+        yield return new WaitForSeconds(5f);
+        while (listPath.Count > 0)
+        {
+            Destroy(listPath.Dequeue());
         }
     }
 
-    public List<Vector3> FindShortestPath(Vector3 start, Vector3 end) // 시작 지점 도착 지점 가져오고
+    public List<Vector3> FindShortestPath(Vector3 start, Vector3 end)
     {
         Queue<Vector3> queue = new Queue<Vector3>();
         Dictionary<Vector3, Vector3> cameFrom = new Dictionary<Vector3, Vector3>();
@@ -319,18 +335,18 @@ public class GenerationWall : MonoBehaviour
 
         while (queue.Count > 0)
         {
-            Vector3 current = queue.Dequeue(); // 현재 위치 꺼내서 
-            if (current == end) // 현재 위치가 끝이면 나오고 
+            Vector3 current = queue.Dequeue();
+            if (current == end)
             {
                 break;
             }
 
-            foreach (Vector3 next in GetNeighbors(current)) // 현재 위치에서 사방의 위치를 가져와서 체크 
+            foreach (Vector3 next in GetNeighbors(current))
             {
-                if (!cameFrom.ContainsKey(next) && tiles[(int)next.z, (int)next.x].name != tileType.벽.ToString()) 
-                {   // next없고 ~ tile이 다음 좌표 값의 이름이 벽이 아니어야지 다음 큐를 저장 
+                if (!cameFrom.ContainsKey(next) && tiles[(int)next.z, (int)next.x].name != tileType.벽.ToString())
+                {
                     queue.Enqueue(next);
-                    cameFrom[next] = current; // 넥스트 현재로 저장
+                    cameFrom[next] = current;
                 }
             }
         }
@@ -338,11 +354,11 @@ public class GenerationWall : MonoBehaviour
         List<Vector3> path = new List<Vector3>();
         if (!cameFrom.ContainsKey(end))
         {
-            return path; // 길이 없으면 반환
+            return path; // No path found
         }
 
-        Vector3 step = end; // 스텦에 엔드 넣고 
-        while (step != start) // 시작점이 아니어야지만 계속 돌리고 
+        Vector3 step = end;
+        while (step != start)
         {
             path.Add(step);
             step = cameFrom[step];
@@ -352,11 +368,11 @@ public class GenerationWall : MonoBehaviour
         return path;
     }
 
-    List<Vector3> GetNeighbors(Vector3 position) //옆 타일 정보 얻기
+    List<Vector3> GetNeighbors(Vector3 position)
     {
-        List<Vector3> neighbors = new List<Vector3>(); // 이웃 타일
+        List<Vector3> neighbors = new List<Vector3>();
 
-        Vector3[] directions = new Vector3[] // 상하좌우 체크 
+        Vector3[] directions = new Vector3[]
         {
             new Vector3(1, 0, 0),
             new Vector3(-1, 0, 0),
@@ -366,8 +382,8 @@ public class GenerationWall : MonoBehaviour
 
         foreach (Vector3 direction in directions)
         {
-            Vector3 neighbor = position + direction; // 가운데 기준에 방향 더해
-            if (neighbor.x >= 0 && neighbor.x < grid && neighbor.z >= 0 && neighbor.z < grid) // 미로 안으로 제한 
+            Vector3 neighbor = position + direction;
+            if (neighbor.x >= 0 && neighbor.x < grid && neighbor.z >= 0 && neighbor.z < grid)
             {
                 neighbors.Add(neighbor);
             }

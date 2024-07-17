@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     static public int spikePercent;
     static public int pointPercent;
     static public int timePercent;
+    static public int sec;
     // 맵 크기 
     public InputField inputgrid;
     static public int grid;
@@ -63,18 +64,21 @@ public class GameManager : MonoBehaviour
                 spikePercent = 400 / grid;
                 pointPercent = grid;
                 timePercent = grid;
+                sec = 90;
                 break;
             case 1: // 보통
                 movingPercent = grid * 2;
                 spikePercent = 400 / grid / 2;
                 pointPercent = grid * 2;
                 timePercent = grid * 2;
+                sec = 60;
                 break;
             case 2: // 어려움
                 movingPercent = grid / 3;
                 spikePercent = 400 / grid * 3;
                 pointPercent = grid * 3;
                 timePercent = grid * 3;
+                sec = 30;
                 break;
         }
 

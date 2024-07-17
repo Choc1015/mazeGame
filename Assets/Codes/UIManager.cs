@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     {
         Instance = this;
         min = 0;
-        sec = 20;
+        sec = GameManager.sec;
     }
 
     private void Start()

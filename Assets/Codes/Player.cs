@@ -72,7 +72,8 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.CompareTag("Path"))
         {
-            StartCoroutine(GenerationWall.Instance.destroyTimePath(transform.position));
+            GenerationWall.Instance.positionPlayer = gameObject;
+            GenerationWall.isGetItem = true;
             Destroy(other.gameObject);
         }
 
