@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     float _saveSpeed;
     private void Awake()
     {
+        
         _saveSpeed = _speed;
         _rigidbody = gameObject.GetComponent<Rigidbody>();
     }

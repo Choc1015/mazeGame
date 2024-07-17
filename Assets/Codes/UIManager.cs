@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
 
     public void ActivePannel()
     {
-
+        Time.timeScale = 0;
         GameManager.inputPoint = point;
         endPannel.gameObject.SetActive(true);
     }
@@ -62,15 +62,21 @@ public class UIManager : MonoBehaviour
     public void startScene()
     {
         if (GameManager.Instance.isOkGrid)
+        {
+            Time.timeScale = 1;
             SceneManager.LoadScene("InGame");
+        }
+            
     }
     public void reStartScene()
     {
-            SceneManager.LoadScene("InGame");
+        Time.timeScale = 1;
+        SceneManager.LoadScene("InGame");
     }
 
     public void robbyScene()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("OutGame_Start");
     }
     
@@ -91,6 +97,7 @@ public class UIManager : MonoBehaviour
         {
             if (min == 0)
             {
+                Time.timeScale = 0;
                 retryPannel.SetActive(true);
             }
             else
